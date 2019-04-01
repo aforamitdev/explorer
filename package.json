@@ -1,0 +1,12 @@
+{
+  "name": "tut-explorer",
+  "version": "1.0.0",
+  "description": "Simple file Explorer and management for offline Tutorials  videos",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^4.1.3"
+  }
+}
