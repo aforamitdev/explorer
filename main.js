@@ -6,6 +6,18 @@ const { app, BrowserWindow } = electron;
 // start
 let mainWindow;
 
+const fs = require("fs");
+fs.readdir("/", function(err, files) {
+  if (err) {
+    return console.error(err);
+  }
+  files.forEach(function(file) {
+    console.log(file);
+  });
+});
+
+
+
 app.on("ready", function() {
   mainWindow = new BrowserWindow({});
   mainWindow.loadURL(
