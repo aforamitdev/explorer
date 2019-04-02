@@ -5,7 +5,7 @@ const path = require("path");
 const { app, BrowserWindow } = electron;
 // start
 let mainWindow;
-
+// readDir 
 const fs = require("fs");
 fs.readdir("/", function(err, files) {
   if (err) {
