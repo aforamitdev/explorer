@@ -1,30 +1,43 @@
-const electron = require("electron");
-const url = require("url");
-const path = require("path");
+const { BrowserWindow, app, dialog, ipcMain } = require("electron");
 
-const { app, BrowserWindow } = electron;
-// start
-let mainWindow;
-// readDir 
+const os = require("os");
 const fs = require("fs");
-fs.readdir("/", function(err, files) {
-  if (err) {
-    return console.error(err);
-  }
-  files.forEach(function(file) {
-    console.log(file);
+
+let mainWindow;
+
+ipcMain.on("clannel", (e, args) => {
+  //listing for any message on "clannel"
+  console.log(args); //logging the message
+  e.sender.send("clannel", "message recoded on the mian process "); // reply to the channel 1
+});
+
+app.on("ready", () => {
+  mainWindow = new BrowserWindow({
+    // cretaing a windows
+    width: 600,
+    height: 600,
+    show: false
   });
+
+  mainWindow.once("ready-to-show", () => {
+    //lisning for once
+    mainWindow.show();
+  });
+
+  mainWindow.loadURL(`file://${__dirname}/index.html`); // loading the file
 });
 
-
-
-app.on("ready", function() {
-  mainWindow = new BrowserWindow({});
-  mainWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, "mainWindow.html"),
-      protocol: "file:",
-      slashes: true
-    })
-  );
+app.on("closed", () => {
+  mainWindow = null;
 });
+
+const getfileFromUser = () => {
+  const files = dialog.showOpenDialog({
+    properties: ["openFile"],
+    filters: [{ name: "Text File", extensions: ["MP4", "txt", "text", "md"] }]
+  });
+
+  console.log(files);
+  const content = fs.readFileSync(files).toString();
+  console.log(content);
+};
